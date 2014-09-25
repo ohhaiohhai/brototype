@@ -5,30 +5,6 @@ Bro, do you even Ruby?
 This is a ruby port of the popular brototype.js library that can be found here:
 https://github.com/letsgetrandy/brototype
 
-
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'brototype'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install brototype
-
-## Rspec is used to run the tests, just do:
-
-```
-RSpec::Core::RakeTask.new(:spec)
-```
-
 ## Features
 
 You've got a deeply-nested set of objects that may or may not always be there.
@@ -65,6 +41,28 @@ Brototype::Bro.new('foo' => {'bar' => 1}).i_can_haz('foo.bar')
 Brototype::Bro.new(@anon_class).brace_yourself('throws_error').here_come_the_errors(lambda { |e|
   puts 'error ' + e + ' happened.'
 })
+```
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'brototype'
+```
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install brototype
+
+## Rspec is used to run the tests, just do:
+
+```
+rake spec
 ```
 
 ## Contributing
