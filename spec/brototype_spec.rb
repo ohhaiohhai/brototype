@@ -55,7 +55,7 @@ describe Brototype do
       success = false
       @anon_bro = Brototype::Bro.new(@anon_class)
       
-      @anon_bro.i_dont_always('bar').but_when_i_do(lambda { |x|
+      @anon_bro.i_dont_always('foo.bar').but_when_i_do(lambda { |x|
         success = true
       })
       expect(success).to be false
@@ -84,6 +84,23 @@ describe Brototype do
         param = x
       })
       expect(param).to be 91
+    end
+    
+    it 'should work with hash keys too' do
+      success = false
+      result = nil
+      
+      @bro.i_dont_always('foo.baz').but_when_i_do(lambda { |x|
+        success = true
+      })
+      expect(success).to be false
+      
+      @bro.i_dont_always('foo.bar').but_when_i_do(lambda { |x|
+        success = true
+        result = x
+      })
+      expect(result).to eq("baz")
+    
     end
 
   end

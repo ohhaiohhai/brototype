@@ -10,11 +10,14 @@ module Brototype
     end
   
     def but_when_i_do(callback=nil)
+      return_value = nil
       if @object.respond_to? @method
         return_value = @object.send(@method)
-        if return_value
-          (callback || (lambda {|x|1})).call return_value
-        end
+      else
+        return_value = Bro.new(@object).i_can_haz @method
+      end
+      if return_value
+        (callback || (lambda {|x|1})).call return_value
       end
     end
     
