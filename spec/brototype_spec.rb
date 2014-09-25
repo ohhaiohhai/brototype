@@ -51,58 +51,111 @@ describe Brototype do
 
   describe '#i_dont_always' do
 
-    it 'should check that the requested method is a function' do
-      success = false
-      @anon_bro = Brototype::Bro.new(@anon_class)
-      
-      @anon_bro.i_dont_always('foo.bar').but_when_i_do(lambda { |x|
-        success = true
-      })
-      expect(success).to be false
-      
-      @anon_bro.i_dont_always('foo').but_when_i_do(lambda { |x|
-        success = true
-      })
-      expect(success).to be true
+    context '#but_when_i_do lambda' do
+      it 'should check that the requested method is a function' do
+        success = false
+        @anon_bro = Brototype::Bro.new(@anon_class)
+
+        @anon_bro.i_dont_always('foo.bar').but_when_i_do(lambda { |x|
+          success = true
+        })
+        expect(success).to be false
+
+        @anon_bro.i_dont_always('foo').but_when_i_do(lambda { |x|
+          success = true
+        })
+        expect(success).to be true
+      end
+
+      it 'should run the requested method if a function' do
+        fn = lambda {|x|1}
+        @anon_bro = Brototype::Bro.new(@anon_class)
+
+        @anon_bro.i_dont_always('bar').but_when_i_do(fn)
+        expect(@anon_bro.i_can_haz('fired')).to be false
+
+        @anon_bro.i_dont_always('foo').but_when_i_do(fn)
+        expect(@anon_bro.i_can_haz('fired')).to be true
+      end
+
+      it 'should pass the method\'s return value as param to callback' do
+        param = nil
+        Brototype::Bro.new(@anon_class).i_dont_always('foo').but_when_i_do(lambda { |x|
+          param = x
+        })
+        expect(param).to be 91
+      end
+
+      it 'should work with hash keys too' do
+        success = false
+        result = nil
+
+        @bro.i_dont_always('foo.baz').but_when_i_do(lambda { |x|
+          success = true
+        })
+        expect(success).to be false
+
+        @bro.i_dont_always('foo.bar').but_when_i_do(lambda { |x|
+          success = true
+          result = x
+        })
+        expect(result).to eq("baz")
+      end
     end
 
-    it 'should run the requested method if a function' do
-    
-      fn = lambda {|x|1}
-      @anon_bro = Brototype::Bro.new(@anon_class)
-      
-      @anon_bro.i_dont_always('bar').but_when_i_do(fn)
-      expect(@anon_bro.i_can_haz('fired')).to be false
-      
-      @anon_bro.i_dont_always('foo').but_when_i_do(fn)
-      expect(@anon_bro.i_can_haz('fired')).to be true
+    context '#but_when_i do' do
+      it 'should check that the requested method is a function' do
+        success = false
+        @anon_bro = Brototype::Bro.new(@anon_class)
+
+        @anon_bro.i_dont_always('foo.bar').but_when_i do |x|
+          success = true
+        end
+        expect(success).to be false
+
+        @anon_bro.i_dont_always('foo').but_when_i do |x|
+          success = true
+        end
+        expect(success).to be true
+      end
+
+      it 'should pass the method\'s return value as param to callback' do
+        param = nil
+        Brototype::Bro.new(@anon_class).i_dont_always('foo').but_when_i do |x|
+          param = x
+        end
+        expect(param).to be 91
+      end
+
+      it 'should work with hash keys too' do
+        success = false
+        result = nil
+
+        @bro.i_dont_always('foo.baz').but_when_i do |x|
+          success = true
+        end
+        expect(success).to be false
+
+        @bro.i_dont_always('foo.bar').but_when_i do |x|
+          success = true
+          result = x
+        end
+        expect(result).to eq("baz")
+      end
     end
 
-    it 'should pass the method\'s return value as param to callback' do
-      param = nil
-      Brototype::Bro.new(@anon_class).i_dont_always('foo').but_when_i_do(lambda { |x|
-        param = x
-      })
-      expect(param).to be 91
-    end
-    
-    it 'should work with hash keys too' do
-      success = false
-      result = nil
-      
-      @bro.i_dont_always('foo.baz').but_when_i_do(lambda { |x|
-        success = true
-      })
-      expect(success).to be false
-      
-      @bro.i_dont_always('foo.bar').but_when_i_do(lambda { |x|
-        success = true
-        result = x
-      })
-      expect(result).to eq("baz")
-    
-    end
+    context '#but_when_i_do &block' do
+      it 'should run the requested method if a function' do
+        fn = Proc.new { |x| 1 }
+        @anon_bro = Brototype::Bro.new(@anon_class)
 
+        @anon_bro.i_dont_always('bar').but_when_i_do(fn)
+        expect(@anon_bro.i_can_haz('fired')).to be false
+
+        @anon_bro.i_dont_always('foo').but_when_i_do(fn)
+        expect(@anon_bro.i_can_haz('fired')).to be true
+      end
+    end
   end
 
   describe '#brace_yourself' do
