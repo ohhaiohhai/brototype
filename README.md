@@ -25,9 +25,9 @@ Brototype::Bro.new(params).i_can_haz(':model.:id')
 
 Or better yet, how about:
 ```
-Brototype::Bro.new(params).i_dont_always(':model.:id').but_when_i_do(lambda {
-  |id| puts id
-})
+Brototype::Bro.new(params).i_dont_always(':model.:id').but_when_i do |id|
+  puts id
+end
 ```
 
 Fetch nested properties by string or key:
