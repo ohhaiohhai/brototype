@@ -2,6 +2,11 @@
 
 Bro, do you even Ruby?
 
+This is a ruby port of the popular brototype.js library that can be found here:
+https://github.com/letsgetrandy/brototype
+
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -18,6 +23,11 @@ Or install it yourself as:
 
     $ gem install brototype
 
+## Rspec is used to run the tests, just do:
+
+```
+RSpec::Core::RakeTask.new(:spec)
+```
 
 ## Contributing
 
