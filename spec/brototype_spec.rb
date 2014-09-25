@@ -10,15 +10,15 @@ describe Brototype do
   describe '#do_you_even' do
 
     it 'should return true for defined properties' do
-      expect(@bro.do_you_even('foo')).to be true
+      expect(@bro.do_you_even?('foo')).to be true
     end
 
     it 'should return true for nested properties' do
-      expect(@bro.do_you_even('foo.bar')).to be true
+      expect(@bro.do_you_even?('foo.bar')).to be true
     end
     
     it 'should return false for undefined properties' do
-      expect(@bro.do_you_even('foo.nada')).to be false
+      expect(@bro.do_you_even?('foo.nada')).to be false
     end
 
   end
