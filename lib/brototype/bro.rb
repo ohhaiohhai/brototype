@@ -3,31 +3,42 @@ module Brototype
     
     TOTALLY = true
     NOWAY = false
+    
+    class << self
+      def sup?(obj)
+        self.new(obj)
+      end
+
+      def is_that_even_a_thing?(obj)
+        !(obj.nil? || obj.empty?)
+      end
+    end
 
     def initialize(obj)
       @obj = obj;
     end
 
-    def is_that_even_a_thing
-      (@obj.nil? || @obj.empty?) ? false : true
+    def is_that_even_a_thing?
+      self.class.is_that_even_a_thing?(@obj)
     end
 
-    def do_you_even(key, options = {})
-      options_bro = Bro.new(options || {})
-      bro = self.i_can_haz(key)
-      if Bro.new(bro).is_that_even_a_thing == TOTALLY
-        TOTALLY;
-      else
-        NOWAY
-      end
-
+    def do_you_even?(keyset)
+      self.class.is_that_even_a_thing? self.i_can_haz(keyset)
     end
 
     def i_can_haz(key)
       # TODO if key is an array, return all
       if @obj.is_a?(Hash)
-        key.split('.').inject(@obj) do |c, v|
-          c.respond_to?(:keys) ? c[v.start_with?(":") ? v[1..-1].to_sym : v] : nil
+        # split up the incoming keys and dig into the hash to find the last value
+        key.split('.').inject(@obj) do |memo, k|
+          # make sure it's a hash (could be nil from the last iteration) and that is the key in either format
+          if memo.is_a? Hash and (memo.has_key?(k) or memo.has_key?(k.to_sym))
+            # use ternary operator instead of straight "this || that" so that if the key's value is nil or false it'll still return
+            memo.has_key?(k) ? memo[k] : memo[k.to_sym]
+          else
+            # nothing found, get out of here
+            nil
+          end
         end
       else
         if @obj.respond_to?(key)
