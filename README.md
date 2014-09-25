@@ -35,7 +35,7 @@ You've got a deeply-nested set of objects that may or may not always be there.
 We've all seen something like this:
 
 ```
-if params[:model] && params[:model] && params[:model][:id]
+if params && params[:model] && params[:model][:id]
     # do something
 end
 ```
