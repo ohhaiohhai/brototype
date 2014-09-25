@@ -27,7 +27,7 @@ module Brototype
       # TODO if key is an array, return all
       if @obj.is_a?(Hash)
         key.split('.').inject(@obj) do |c, v|
-          c.respond_to?(:keys) ? c[v] : nil
+          c.respond_to?(:keys) ? c[v.start_with?(":") ? v[1..-1].to_sym : v] : nil
         end
       else
         if @obj.respond_to?(key)
