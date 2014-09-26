@@ -38,9 +38,9 @@ Brototype::Bro.new('foo' => {'bar' => 1}).i_can_haz('foo.bar')
 
 ### Handling exceptions
 ```
-Brototype::Bro.new(@anon_class).brace_yourself('throws_error').here_come_the_errors(lambda { |e|
+Brototype::Bro.new(@anon_class).brace_yourself('throws_error').here_come_the_errors do |e|
   puts 'error ' + e + ' happened.'
-})
+end
 ```
 
 ## Installation
