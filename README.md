@@ -20,20 +20,20 @@ We all hate that, don't we?
 
 So what if you could just type:
 ```
-Brototype::Bro.new(params).i_can_haz(':model.:id')
+Brototype::Bro.new(params).i_can_haz(:model,:id)
 ```
 
 Or better yet, how about:
 ```
-Brototype::Bro.new(params).i_dont_always(':model.:id').but_when_i do |id|
+Brototype::Bro.new(params).i_dont_always(:model,:id).but_when_i do |id|
   puts id
 end
 ```
 
 Fetch nested properties by string or key:
 ```
-Brototype::Bro.new(:foo => {:bar => 1}).i_can_haz(':foo.:bar')
-Brototype::Bro.new('foo' => {'bar' => 1}).i_can_haz('foo.bar')
+Brototype::Bro.new(:foo => {:bar => 1}).i_can_haz(:foo,:bar)
+Brototype::Bro.new('foo' => {'bar' => 1}).i_can_haz('foo','bar')
 ```
 
 ### Handling exceptions
