@@ -22,15 +22,15 @@ module Brototype
       self.class.is_that_even_a_thing?(@obj)
     end
 
-    def do_you_even?(keyset)
-      self.class.is_that_even_a_thing? self.i_can_haz(keyset)
+    def do_you_even?(*args)
+      self.class.is_that_even_a_thing? self.i_can_haz(*args)
     end
 
-    def i_can_haz(key)
+    def i_can_haz(*args)
       # TODO if key is an array, return all
       if @obj.is_a?(Hash)
         # split up the incoming keys and dig into the hash to find the last value
-        key.split('.').inject(@obj) do |memo, k|
+        args.inject(@obj) do |memo, k|
           # make sure it's a hash (could be nil from the last iteration) and that is the key in either format
           if memo.is_a? Hash and (memo.has_key?(k) or memo.has_key?(k.to_sym))
             # use ternary operator instead of straight "this || that" so that if the key's value is nil or false it'll still return
@@ -40,14 +40,17 @@ module Brototype
             nil
           end
         end
-      else
-        if @obj.respond_to?(key)
+      elsif args.count > 0
+        key = args.first
+        if @obj.respond_to? key
           @obj.send(key)
         elsif key.start_with?("@")
-          @obj.instance_variable_get(key)
+          @obj.instance_variable_get key
         else
           nil
         end
+      else 
+        nil
       end
     end
     
@@ -55,12 +58,12 @@ module Brototype
       # TODO
     end
     
-    def i_dont_always(methodString)
-      Bromise.new(@obj, methodString)
+    def i_dont_always(*methodString)
+      Bromise.new(@obj, *methodString)
     end
     
-    def brace_yourself(methodString)
-      Bromise.new(@obj, methodString)
+    def brace_yourself(*methodString)
+      Bromise.new(@obj, *methodString)
     end
 
   end

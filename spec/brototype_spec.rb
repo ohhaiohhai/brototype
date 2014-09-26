@@ -14,11 +14,11 @@ describe Brototype do
     end
 
     it 'should return true for nested properties' do
-      expect(@bro.do_you_even? 'foo.bar').to be true
+      expect(@bro.do_you_even? 'foo','bar').to be true
     end
     
     it 'should return false for undefined properties' do
-      expect(@bro.do_you_even? 'foo.nada').to be false
+      expect(@bro.do_you_even? 'foo','nada').to be false
     end
 
   end
@@ -26,11 +26,11 @@ describe Brototype do
   describe '#i_can_haz' do
 
     it 'should return the value of the deep property' do
-      expect(@bro.i_can_haz 'foo.bar').to eq('baz')
+      expect(@bro.i_can_haz 'foo','bar').to eq('baz')
     end
 
     it 'should return nil for missing property' do
-      expect(@bro.i_can_haz 'foo.nada').to be_nil
+      expect(@bro.i_can_haz 'foo','nada').to be_nil
     end
 
   end
@@ -79,12 +79,13 @@ describe Brototype do
         success = false
         result = nil
 
-        @bro.i_dont_always('foo.baz').but_when_i do |x|
+        @bro.i_dont_always('foo','baz').but_when_i do |x|
+          puts "OH HAI!"
           success = true
         end
         expect(success).to be false
 
-        @bro.i_dont_always('foo.bar').but_when_i do |x|
+        @bro.i_dont_always('foo','bar').but_when_i do |x|
           success = true
           result = x
         end

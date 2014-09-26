@@ -3,33 +3,24 @@ module Brototype
   # Bromise... it's stronger than a Promise
   class Bromise
 
-    def initialize(object, method=nil, args=[])
+    def initialize(object, *args)
       @object = object
-      @method = method
-      @args = args.count > 1 ? args.slice(1) : []
+      #@method = method
+      @args = args
     end
 
     def but_when_i(&block)
-      return_value = nil
-      if @object.respond_to? @method
-        return_value = @object.send(@method)
-      else
-        return_value = Bro.new(@object).i_can_haz @method
-      end
+      return_value = Bro.new(@object).i_can_haz(*@args)
       if return_value
         (block || {}).call return_value
       end
     end
 
     def here_come_the_errors(&block)
-      if @object.respond_to? @method
-        begin
-          @object.send(@method)
-        rescue  Exception => e
-          block.call e
-        end
-      else
-        block.call @method + ' is not a proc'
+      begin
+         Bro.new(@object).i_can_haz(*@args)
+      rescue  Exception => e
+        block.call e
       end
     end
 
