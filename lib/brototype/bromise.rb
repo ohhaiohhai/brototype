@@ -10,10 +10,6 @@ module Brototype
     end
 
     def but_when_i(&block)
-      but_when_i_do block
-    end
-
-    def but_when_i_do(callback=nil)
       return_value = nil
       if @object.respond_to? @method
         return_value = @object.send(@method)
@@ -21,19 +17,19 @@ module Brototype
         return_value = Bro.new(@object).i_can_haz @method
       end
       if return_value
-        (callback || (lambda {|x|1})).call return_value
+        (block || {}).call return_value
       end
     end
 
-    def here_come_the_errors(callback=nil)
+    def here_come_the_errors(&block)
       if @object.respond_to? @method
         begin
           @object.send(@method)
         rescue  Exception => e
-          callback.call e
+          block.call e
         end
       else
-        callback(@method + ' is not a proc');
+        block.call @method + ' is not a proc'
       end
     end
 
